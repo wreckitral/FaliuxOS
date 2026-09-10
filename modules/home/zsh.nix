@@ -18,6 +18,7 @@
       EDITOR = "nvim";
       GOPATH = "$HOME/go";
       LANG = "en_US.UTF-8";
+      OPENCODE_DISABLE_AUTOUPDATE = "1";
     };
 
     initContent = ''

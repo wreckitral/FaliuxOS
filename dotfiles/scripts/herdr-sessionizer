@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~/ ~/ohToBeCrack ~/project ~/college ~/golang ~/work -mindepth 1 -maxdepth 1 -type d 2>/dev/null | fzf)
+fi
+
+if [[ -z "${selected:-}" ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+
+# Look for an existing workspace whose label matches.
+# this greps `workspace list --json` by label.
+existing_id=$(herdr workspace list --json 2>/dev/null \
+    | jq -r --arg name "$selected_name" \
+        '.result.workspaces[]? | select(.label == $name) | .workspace_id' \
+    | head -n1)
+
+if [[ -n "$existing_id" ]]; then
+    herdr workspace focus "$existing_id"
+else
+    herdr workspace create --cwd "$selected" --label "$selected_name" --focus
+fi

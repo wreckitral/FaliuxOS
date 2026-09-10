@@ -6,6 +6,7 @@
     ../../modules/home/git.nix
     ../../modules/home/dev-tools.nix
     ../../modules/home/dev-shells.nix
+    ../../modules/home/herdr.nix
   ];
 
   home.username = username;

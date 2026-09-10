@@ -14,10 +14,11 @@
     nodejs_22
     python3
     uv
-    go
+    go_1_27
     luarocks
     lua5_1
     readline
+    opencode
   ];
 
   programs.zoxide = {

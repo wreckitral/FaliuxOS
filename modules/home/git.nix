@@ -2,10 +2,9 @@
 {
   programs.git = {
     enable = true;
-    userName = "wreckitral";
-    userEmail = "defhanayasofhiea@gmail.com";
-
-    extraConfig = {
+    settings = {
+      user.name = "wreckitral";
+      user.email = "defhanayasofhiea@gmail.com";
       init.defaultBranch = "main";
       pull.rebase = true;
       core.editor = "nvim";

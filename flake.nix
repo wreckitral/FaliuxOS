@@ -3,25 +3,34 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    opencode-nix.url = "github:dan-online/opencode-nix";
+    herdr.url = "github:herdrdev/herdr";
+
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     home-manager-darwin = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+
     sops-nix.url = "github:Mic92/sops-nix";
+
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
   outputs =
@@ -53,9 +62,9 @@
               extraModules ? [ ],
             }:
             nixpkgs.lib.nixosSystem {
-              system = "x86_64-linux";
               specialArgs = { inherit inputs username; };
               modules = [
+                { nixpkgs.hostPlatform = "x86_64-linux"; }
                 ./hosts/${name}
                 home-manager.nixosModules.home-manager
                 sops-nix.nixosModules.sops
@@ -71,6 +80,7 @@
               ]
               ++ extraModules;
             };
+
           # macOS (nix-darwin) host builder
           mkDarwinHost =
             {
@@ -78,9 +88,9 @@
               system ? "aarch64-darwin",
             }:
             nix-darwin.lib.darwinSystem {
-              inherit system;
               specialArgs = { inherit inputs username; };
               modules = [
+                { nixpkgs.hostPlatform = system; }
                 ./hosts/${name}
                 home-manager-darwin.darwinModules.home-manager
                 sops-nix.darwinModules.sops
