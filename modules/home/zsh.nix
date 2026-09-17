@@ -1,5 +1,13 @@
 { pkgs, config, ... }:
 {
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    GOPATH = "$HOME/go";
+    LANG = "en_US.UTF-8";
+    OPENCODE_DISABLE_AUTOUPDATE = "1";
+    BROWSER = "chrome-wsl";
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -12,13 +20,6 @@
 
     shellAliases = {
       v = "$EDITOR";
-    };
-
-    sessionVariables = {
-      EDITOR = "nvim";
-      GOPATH = "$HOME/go";
-      LANG = "en_US.UTF-8";
-      OPENCODE_DISABLE_AUTOUPDATE = "1";
     };
 
     initContent = ''

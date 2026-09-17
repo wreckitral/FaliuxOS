@@ -22,4 +22,6 @@
     wget
     curl
   ];
+
+  programs.nix-ld.enable = true;
 }
